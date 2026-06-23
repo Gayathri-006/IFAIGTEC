@@ -52,7 +52,8 @@ export function Navbar({ page, setPage }: NavbarProps) {
         justifyContent: "space-between", transition: "height 0.35s ease",
       }}>
         {/* LOGO */}
-        <a href="#" onClick={e => handleLinkClick(e, "home")} style={{ display: "flex", alignItems: "center", gap: 14, textDecoration: "none", marginLeft: "-6px" }}>
+        {/* LOGO */}
+        <a href="#" onClick={e => handleLinkClick(e, "home")} style={{ display: "flex", alignItems: "center", gap: 16, textDecoration: "none", marginLeft: "-24px" }}>
           <div style={{
             width: 52, height: 52, borderRadius: 18,
             background: "linear-gradient(135deg, #F97316 0%, #7C3AED 100%)",
@@ -63,8 +64,8 @@ export function Navbar({ page, setPage }: NavbarProps) {
             <span style={{ color: "white", fontWeight: 900, fontSize: 18, letterSpacing: "-0.01em" }}>IF</span>
           </div>
           
-          {/* Balanced gap & margin to lower subtext and separate smoothly */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 9, marginTop: 7 }}>
+          {/* Adjusted gap to 12 for spacing, and added translateY(3px) to bump it down to match "About Us" */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 12, transform: "translateY(7px)" }}>
             <span style={{ fontWeight: 900, fontSize: 22, letterSpacing: "-0.02em", color: C.dark, lineHeight: 1, whiteSpace: "nowrap" }}>
               IFAI<span style={{ color: C.orange }}>GTEC</span>
             </span>
@@ -73,7 +74,6 @@ export function Navbar({ page, setPage }: NavbarProps) {
             </span>
           </div>
         </a>
-
         {/* DESKTOP NAV */}
         <div ref={dropdownRef} className="hidden-mobile" style={{ display: "flex", gap: 28, alignItems: "center", height: "100%" }}>
           {NAV_ITEMS.map((item, navIdx) => {
