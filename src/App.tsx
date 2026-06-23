@@ -4,6 +4,7 @@ import { Navbar } from "./components/layout/Navbar";
 import { HomePage } from "./pages/HomePage";
 import { LoginPage } from "./pages/LoginPage";
 import { RegisterPage } from "./pages/RegisterPage";
+import { Footer } from "./components/layout/Footer";
 
 export default function App() {
   const [page, setPage] = useState("home");
@@ -29,6 +30,9 @@ export default function App() {
       {page === "home"     && <HomePage setPage={setPage} />}
       {page === "login"    && <LoginPage setPage={setPage} />}
       {page === "register" && <RegisterPage setPage={setPage} />}
+      {page !== "login" && page !== "register" && (
+        <Footer setPage={setPage} />
+      )}
     </div>
   );
 }
