@@ -80,7 +80,7 @@ const styles = {
   }),
 
   sectionTitle: {
-    fontFamily: serif, fontSize: "clamp(36px, 5vw, 54px)", fontWeight: 700,
+    fontFamily: serif, fontSize: "clamp(32px, 5vw, 54px)", fontWeight: 700,
     lineHeight: 1.15, color: C.dark, margin: 0, marginBottom: 16,
   } as React.CSSProperties,
 
@@ -124,7 +124,7 @@ function StatCard({ value, label, color }: { value: string; label: string; color
     <div style={{
       background: "rgba(255,255,255,0.85)", backdropFilter: "blur(16px)",
       border: `1px solid ${C.border}`, borderRadius: 16, padding: "20px 24px",
-      boxShadow: "0 4px 24px rgba(0,0,0,0.06)", minWidth: 140,
+      boxShadow: "0 4px 24px rgba(0,0,0,0.06)", flex: "1 1 140px", minWidth: 140,
     }}>
       <div style={{ fontFamily: serif, fontSize: 32, fontWeight: 700, color, lineHeight: 1, marginBottom: 6 }}>{value}</div>
       <div style={{ fontSize: 13, color: C.muted, fontWeight: 500, fontFamily: sans }}>{label}</div>
@@ -141,25 +141,21 @@ function PageHero({ badge, badgeColor, title, titleAccent, subtitle, imgUrl, sta
   return (
     <section style={{ position: "relative", background: C.bg, overflow: "hidden", paddingTop: 64, paddingBottom: 48 }}>
       <BlobBg colors={[color, C.teal, C.green]} />
-      <div style={{
-        maxWidth: 1280, margin: "0 auto", padding: "0 40px",
-        display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64,
-        alignItems: "center", position: "relative", zIndex: 1,
-      }}>
+      <div className="agri-container agri-hero-grid">
         <div>
           <div style={styles.badge(color)}>{badge}</div>
-          <h1 style={{ fontFamily: serif, fontSize: "clamp(40px, 4.5vw, 62px)", fontWeight: 800, lineHeight: 1.12, color: C.dark, margin: "0 0 8px" }}>
+          <h1 style={{ fontFamily: serif, fontSize: "clamp(36px, 4.5vw, 62px)", fontWeight: 800, lineHeight: 1.12, color: C.dark, margin: "0 0 16px" }}>
             {title}
             {titleAccent && <> <span style={{ color }}>{titleAccent}</span></>}
           </h1>
           <p style={{ fontSize: 17, color: C.gray, lineHeight: 1.75, maxWidth: 480, margin: "0 0 32px", fontFamily: sans }}>{subtitle}</p>
           {stats && (
-            <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
+            <div style={{ display: "flex", gap: 16, flexWrap: "wrap", justifyContent: "center" }}>
               {stats.map((s) => <StatCard key={s.label} {...s} />)}
             </div>
           )}
         </div>
-        <div style={{ borderRadius: 24, overflow: "hidden", boxShadow: "0 24px 80px rgba(0,0,0,0.12)", aspectRatio: "4/3", position: "relative" }}>
+        <div style={{ borderRadius: 24, overflow: "hidden", boxShadow: "0 24px 80px rgba(0,0,0,0.12)", aspectRatio: "4/3", position: "relative", width: "100%" }}>
           <img src={imgUrl} alt={title} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
           <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, rgba(0,0,0,0.08) 0%, transparent 60%)" }} />
         </div>
@@ -172,7 +168,7 @@ function PageHero({ badge, badgeColor, title, titleAccent, subtitle, imgUrl, sta
 function Section({ children, bg, py }: { children: React.ReactNode; bg?: string; py?: number }) {
   return (
     <section style={{ background: bg || C.bg, padding: `${py ?? 80}px 0`, position: "relative" }}>
-      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 40px" }}>{children}</div>
+      <div className="agri-container">{children}</div>
     </section>
   );
 }
@@ -245,7 +241,7 @@ function OverviewPage() {
         ]}
       />
       <div style={{ background: C.dark, padding: "28px 0" }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 40px", display: "flex", gap: 40, alignItems: "center", flexWrap: "wrap" }}>
+        <div className="agri-container" style={{ display: "flex", gap: "20px 40px", alignItems: "center", flexWrap: "wrap", justifyContent: "center" }}>
           <span style={{ fontFamily: serif, fontSize: 13, fontWeight: 600, color: C.orange, letterSpacing: "0.1em", textTransform: "uppercase", whiteSpace: "nowrap", flexShrink: 0 }}>Our Mission</span>
           {mission.map((m) => (
             <span key={m} style={{ fontSize: 13, color: "rgba(255,255,255,0.65)", fontFamily: sans, fontWeight: 500, whiteSpace: "nowrap", display: "flex", alignItems: "center", gap: 8 }}>
@@ -255,8 +251,8 @@ function OverviewPage() {
         </div>
       </div>
       <Section bg={C.bgAlt}>
-        <SectionHeader badge="Objectives" title="What We Aim to Achieve" subtitle="Six strategic pillars that define IFAIGTEC's mission across AI governance, education, and agricultural innovation." color={C.green} />
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(340px, 1fr))", gap: 24 }}>
+        <SectionHeader badge="Objectives" title="What We Aim to Achieve" subtitle="Six strategic pillars that define IFAIGTEC's mission across AI governance, education, and agricultural innovation." color={C.green} center />
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 24 }}>
           {objectives.map((obj) => (
             <HoverCard key={obj.title} accent={obj.color}>
               <div style={{ width: 48, height: 48, borderRadius: 12, background: `${obj.color}15`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, marginBottom: 16 }}>{obj.icon}</div>
@@ -266,15 +262,14 @@ function OverviewPage() {
           ))}
         </div>
       </Section>
-      <section style={{ position: "relative", height: 380, overflow: "hidden" }}>
-        <img src={IMG.droneField} alt="AI drone precision agriculture" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(15,23,42,0.80) 0%, rgba(15,23,42,0.30) 100%)", display: "flex", alignItems: "center" }}>
-          <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 40px", width: "100%" }}>
-            <p style={{ fontFamily: serif, fontSize: "clamp(22px, 3vw, 38px)", color: "#fff", fontStyle: "italic", maxWidth: 640, lineHeight: 1.45, margin: 0 }}>
-              "AI for Agriculture is not about replacing the farmer — it's about empowering every farmer with the intelligence of the world."
-            </p>
-            <p style={{ fontFamily: sans, fontSize: 14, color: "rgba(255,255,255,0.55)", marginTop: 16, fontWeight: 500 }}>— IFAIGTEC Vision Statement</p>
-          </div>
+      <section style={{ position: "relative", minHeight: 380, padding: "40px 0", overflow: "hidden", display: "flex", alignItems: "center" }}>
+        <img src={IMG.droneField} alt="AI drone precision agriculture" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(15,23,42,0.85) 0%, rgba(15,23,42,0.40) 100%)" }} />
+        <div className="agri-container" style={{ position: "relative", zIndex: 1, width: "100%" }}>
+          <p style={{ fontFamily: serif, fontSize: "clamp(24px, 4vw, 38px)", color: "#fff", fontStyle: "italic", maxWidth: 640, lineHeight: 1.45, margin: 0 }}>
+            "AI for Agriculture is not about replacing the farmer — it's about empowering every farmer with the intelligence of the world."
+          </p>
+          <p style={{ fontFamily: sans, fontSize: 14, color: "rgba(255,255,255,0.65)", marginTop: 16, fontWeight: 500 }}>— IFAIGTEC Vision Statement</p>
         </div>
       </section>
     </div>
@@ -297,11 +292,11 @@ function ValuePropositionPage() {
     <div>
       <PageHero badge="IFAIGTEC · Value Proposition" badgeColor={C.orange} title="Five Strategic" titleAccent="Pillars of Value" subtitle="IFAIGTEC's value proposition is built on five interlocking pillars — from driving AI investments and fostering innovation to formulating governance policy and securing digital infrastructure." imgUrl={IMG.teamWork} />
       <Section bg={C.bgAlt}>
-        <SectionHeader badge="IFAGS Value Proposition" title="How We Create Value" subtitle="Each pillar represents a strategic commitment to advancing AI governance, investment, collaboration, policy, and security." color={C.orange} />
+        <SectionHeader badge="IFAGS Value Proposition" title="How We Create Value" subtitle="Each pillar represents a strategic commitment to advancing AI governance, investment, collaboration, policy, and security." color={C.orange} center />
         <div style={{ display: "flex", flexDirection: "column", gap: 28 }}>
           {pillars.map((p) => (
             <HoverCard key={p.num} accent={p.color}>
-              <div style={{ display: "grid", gridTemplateColumns: "120px 1fr", gap: 32, alignItems: "start" }}>
+              <div className="agri-val-prop-grid">
                 <div>
                   <div style={{ fontFamily: serif, fontSize: 52, fontWeight: 800, color: `${p.color}22`, lineHeight: 1, marginBottom: 4 }}>{p.num}</div>
                   <div style={styles.pill(p.color)}>{p.title}</div>
@@ -360,14 +355,14 @@ function GovernancePage() {
       <PageHero badge="IFAIGTEC · Governance" badgeColor={C.purple} title="Governance" titleAccent="Structure" subtitle="A transparent, multi-layered governance architecture ensures IFAIGTEC operates with institutional integrity — from executive leadership to specialized commissions." imgUrl={IMG.teamWork} />
       <Section bg={C.bgAlt}>
         <SectionHeader badge="Executive Leadership" title="Organizational Hierarchy" color={C.purple} center />
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 0 }}>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 0, width: "100%" }}>
           {[0, 1].map((level) => {
             const items = leadership.filter((l) => l.level === level);
             return (
-              <div key={level}>
-                <div style={{ display: "flex", justifyContent: "center", gap: 16 }}>
+              <div key={level} style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
+                <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 16, width: "100%" }}>
                   {items.map((item) => (
-                    <div key={item.role} style={{ background: "#fff", border: `2px solid ${item.color}`, borderRadius: 12, padding: "14px 28px", fontFamily: sans, fontWeight: 700, fontSize: 14, color: item.color, textAlign: "center", minWidth: 180, boxShadow: `0 4px 20px ${item.color}20` }}>{item.role}</div>
+                    <div key={item.role} style={{ background: "#fff", border: `2px solid ${item.color}`, borderRadius: 12, padding: "14px 24px", fontFamily: sans, fontWeight: 700, fontSize: 14, color: item.color, textAlign: "center", flex: "1 1 180px", maxWidth: 220, boxShadow: `0 4px 20px ${item.color}20` }}>{item.role}</div>
                   ))}
                 </div>
                 {level < 1 && <div style={{ display: "flex", justifyContent: "center", margin: "6px 0" }}><div style={{ width: 2, height: 24, background: C.border }} /></div>}
@@ -375,21 +370,21 @@ function GovernancePage() {
             );
           })}
           <div style={{ display: "flex", justifyContent: "center", margin: "6px 0" }}><div style={{ width: 2, height: 24, background: C.border }} /></div>
-          <div style={{ display: "flex", justifyContent: "center", gap: 12, flexWrap: "wrap" }}>
+          <div style={{ display: "flex", justifyContent: "center", gap: 12, flexWrap: "wrap", width: "100%" }}>
             {leadership.filter((l) => l.level === 2).map((item) => (
-              <div key={item.role} style={{ background: "#fff", border: `2px solid ${item.color}`, borderRadius: 12, padding: "12px 20px", fontFamily: sans, fontWeight: 600, fontSize: 13, color: item.color, textAlign: "center", minWidth: 160, boxShadow: `0 4px 16px ${item.color}15` }}>{item.role}</div>
+              <div key={item.role} style={{ background: "#fff", border: `2px solid ${item.color}`, borderRadius: 12, padding: "12px 16px", fontFamily: sans, fontWeight: 600, fontSize: 13, color: item.color, textAlign: "center", flex: "1 1 160px", maxWidth: 200, boxShadow: `0 4px 16px ${item.color}15` }}>{item.role}</div>
             ))}
           </div>
           <div style={{ display: "flex", justifyContent: "center", margin: "6px 0" }}><div style={{ width: 2, height: 24, background: C.border }} /></div>
-          <div style={{ display: "flex", justifyContent: "center", gap: 16 }}>
+          <div style={{ display: "flex", justifyContent: "center", gap: 16, flexWrap: "wrap", width: "100%" }}>
             {leadership.filter((l) => l.level === 3).map((item) => (
-              <div key={item.role} style={{ background: "#fff", border: `1px solid ${C.border}`, borderRadius: 12, padding: "12px 24px", fontFamily: sans, fontWeight: 600, fontSize: 13, color: item.color, textAlign: "center" }}>{item.role}</div>
+              <div key={item.role} style={{ background: "#fff", border: `1px solid ${C.border}`, borderRadius: 12, padding: "12px 24px", fontFamily: sans, fontWeight: 600, fontSize: 13, color: item.color, textAlign: "center", flex: "1 1 160px", maxWidth: 200 }}>{item.role}</div>
             ))}
           </div>
         </div>
       </Section>
       <Section>
-        <SectionHeader badge="Councils & Commissions" title="Organizational Bodies" color={C.purple} />
+        <SectionHeader badge="Councils & Commissions" title="Organizational Bodies" color={C.purple} center />
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 24 }}>
           {councils.map((c) => (
             <HoverCard key={c.title} accent={c.color}>
@@ -414,14 +409,14 @@ function GovernancePage() {
         </div>
       </Section>
       <Section>
-        <SectionHeader badge="Project Governance" title="Bid & Project Lifecycle" subtitle="A structured process ensuring transparency and quality from proposal initiation through deployment." color={C.orange} />
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 0 }}>
+        <SectionHeader badge="Project Governance" title="Bid & Project Lifecycle" subtitle="A structured process ensuring transparency and quality from proposal initiation through deployment." color={C.orange} center />
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "12px 0", justifyContent: "center" }}>
           {bidProcess.map((step, i) => (
-            <div key={step.step} style={{ display: "flex", alignItems: "center", gap: 0, marginBottom: 12 }}>
+            <div key={step.step} style={{ display: "flex", alignItems: "center" }}>
               <div style={{ display: "flex", alignItems: "center", gap: 10, background: "#fff", border: `1px solid ${C.border}`, borderRadius: 10, padding: "12px 16px", fontFamily: sans, fontSize: 13, color: C.dark, fontWeight: 600, whiteSpace: "nowrap" }}>
                 <span>{step.icon}</span><span>{step.step}</span>
               </div>
-              {i < bidProcess.length - 1 && <div style={{ width: 24, height: 2, background: `linear-gradient(to right, ${C.orange}, ${C.teal})`, flexShrink: 0 }} />}
+              {i < bidProcess.length - 1 && <div className="agri-hide-mobile" style={{ width: 24, height: 2, background: `linear-gradient(to right, ${C.orange}, ${C.teal})`, flexShrink: 0 }} />}
             </div>
           ))}
         </div>
@@ -453,7 +448,7 @@ function CoETeamPage() {
     <div>
       <PageHero badge="IFAIGTEC · CoE Team" badgeColor={C.teal} title="Centre of Excellence" titleAccent="Team Capabilities" subtitle="The IFAIGTEC CoE brings together industry leaders, academic specialists, solution architects, and delivery experts." imgUrl={IMG.teamWork} />
       <Section bg={C.bgAlt}>
-        <SectionHeader badge="CoE Structure" title="Our Core Team Roles" subtitle="Four interconnected roles spanning strategy, expertise, architecture, and delivery." color={C.teal} />
+        <SectionHeader badge="CoE Structure" title="Our Core Team Roles" subtitle="Four interconnected roles spanning strategy, expertise, architecture, and delivery." color={C.teal} center />
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 24 }}>
           {roles.map((role) => (
             <HoverCard key={role.title} accent={role.color}>
@@ -476,8 +471,8 @@ function CoETeamPage() {
         </div>
       </Section>
       <Section>
-        <SectionHeader badge="Design & Development Services" title="Management System Services" subtitle="Comprehensive services ensuring your organization's management systems are designed, implemented, and continuously improved." color={C.orange} />
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: 24 }}>
+        <SectionHeader badge="Design & Development Services" title="Management System Services" subtitle="Comprehensive services ensuring your organization's management systems are designed, implemented, and continuously improved." color={C.orange} center />
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 24 }}>
           {designServices.map((s) => (
             <HoverCard key={s.title} accent={s.color}>
               <div style={{ width: 44, height: 44, borderRadius: 12, background: `${s.color}15`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20, marginBottom: 14 }}>{s.icon}</div>
@@ -512,7 +507,7 @@ function AgroSciencesPage() {
     <div>
       <PageHero badge="IFAIGTEC · Agro Sciences" badgeColor={C.green} title="Agro Sciences" titleAccent="Overview" subtitle="Nine interconnected domains of agricultural science form the foundation of IFAIGTEC's research, education, and AI application programs." imgUrl={IMG.labResearch} stats={[{ value: "9", label: "Core Domains", color: C.green }, { value: "9+", label: "Agriculture Sub-fields", color: C.teal }]} />
       <Section bg={C.bgAlt}>
-        <SectionHeader badge="Core Disciplines" title="The Nine Domains of Agro Science" subtitle="Each domain represents a distinct scientific tradition, united by AI-driven innovation and IFAIGTEC certification frameworks." color={C.green} />
+        <SectionHeader badge="Core Disciplines" title="The Nine Domains of Agro Science" subtitle="Each domain represents a distinct scientific tradition, united by AI-driven innovation and IFAIGTEC certification frameworks." color={C.green} center />
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 24 }}>
           {sciences.map((s, i) => (
             <HoverCard key={s.name} accent={s.color}>
@@ -529,7 +524,7 @@ function AgroSciencesPage() {
         </div>
       </Section>
       <Section>
-        <SectionHeader badge="Agriculture Science" title="Agricultural Sub-disciplines" subtitle="Nine specialized sciences within agriculture that form the core of IFAIGTEC's academic and certification programs." color={C.orange} />
+        <SectionHeader badge="Agriculture Science" title="Agricultural Sub-disciplines" subtitle="Nine specialized sciences within agriculture that form the core of IFAIGTEC's academic and certification programs." color={C.orange} center />
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 16 }}>
           {agriSubfields.map((field, i) => (
             <div key={field} style={{ background: "#fff", border: `1px solid ${C.border}`, borderRadius: 14, padding: "20px 20px", display: "flex", alignItems: "center", gap: 12, boxShadow: "0 2px 8px rgba(0,0,0,0.04)", transition: "box-shadow 0.2s, transform 0.2s" }}
@@ -573,8 +568,8 @@ function AgricultureLandscapePage() {
     <div>
       <PageHero badge="IFAIGTEC · Agriculture" badgeColor={C.green} title="AI Agriculture" titleAccent="Landscape" subtitle="A comprehensive map of 25 agricultural disciplines where IFAIGTEC's AI frameworks, certifications, and research programs are actively deployed." imgUrl={IMG.droneField} stats={[{ value: "25", label: "Disciplines", color: C.green }, { value: "9", label: "Categories", color: C.teal }]} />
       <Section bg={C.bgAlt}>
-        <SectionHeader badge="Full Landscape" title="Agricultural Disciplines" subtitle="Filter by category to explore specific domains within the IFAIGTEC Agriculture program." color={C.green} />
-        <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 32 }}>
+        <SectionHeader badge="Full Landscape" title="Agricultural Disciplines" subtitle="Filter by category to explore specific domains within the IFAIGTEC Agriculture program." color={C.green} center />
+        <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 32, justifyContent: "center" }}>
           {["All", ...categories].map((cat) => {
             const isActive = activeCategory === cat;
             const color = cat === "All" ? C.green : catColors[cat] || C.green;
@@ -621,7 +616,7 @@ function ForestryLandscapePage() {
     <div>
       <PageHero badge="IFAIGTEC · Forestry" badgeColor={C.teal} title="AI Agriculture" titleAccent="Forestry Landscape" subtitle="Six core domains spanning forest biology, silviculture, agroforestry, and forest product utilization — all enhanced by IFAIGTEC's AI governance and research frameworks." imgUrl={IMG.forest} stats={[{ value: "6", label: "Core Domains", color: C.teal }, { value: "AI+", label: "Enhanced Analytics", color: C.green }]} />
       <Section bg={C.bgAlt}>
-        <SectionHeader badge="Forestry Science" title="Forestry Landscape Domains" subtitle="Each forestry domain is supported by AI-driven monitoring, remote sensing, and sustainable management protocols." color={C.teal} />
+        <SectionHeader badge="Forestry Science" title="Forestry Landscape Domains" subtitle="Each forestry domain is supported by AI-driven monitoring, remote sensing, and sustainable management protocols." color={C.teal} center />
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: 24 }}>
           {domains.map((d) => (
             <HoverCard key={d.name} accent={d.color}>
@@ -632,10 +627,11 @@ function ForestryLandscapePage() {
           ))}
         </div>
       </Section>
-      <section style={{ position: "relative", height: 320, overflow: "hidden" }}>
-        <img src={IMG.forestAerial} alt="Aerial forest" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-        <div style={{ position: "absolute", inset: 0, background: "rgba(15,23,42,0.55)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <p style={{ fontFamily: serif, fontSize: "clamp(20px, 3vw, 32px)", color: "#fff", fontStyle: "italic", margin: 0, textAlign: "center", maxWidth: 600 }}>"Forests are the lungs of our planet. AI is the intelligence that helps us protect them."</p>
+      <section style={{ position: "relative", minHeight: 320, padding: "40px 0", overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <img src={IMG.forestAerial} alt="Aerial forest" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
+        <div style={{ position: "absolute", inset: 0, background: "rgba(15,23,42,0.65)" }} />
+        <div className="agri-container" style={{ position: "relative", zIndex: 1 }}>
+          <p style={{ fontFamily: serif, fontSize: "clamp(24px, 4vw, 32px)", color: "#fff", fontStyle: "italic", margin: 0, textAlign: "center", maxWidth: 720 }}>"Forests are the lungs of our planet. AI is the intelligence that helps us protect them."</p>
         </div>
       </section>
     </div>
@@ -672,7 +668,7 @@ function AlliedLandscapePage() {
     <div>
       <PageHero badge="IFAIGTEC · Allied Sciences" badgeColor={C.orange} title="AI Agriculture" titleAccent="Allied Landscape" subtitle="Nineteen allied agricultural domains that complement core farming practices — from organic cultivation and bee keeping to coconut technology and hybrid seed production." imgUrl={IMG.labResearch} stats={[{ value: "19", label: "Allied Domains", color: C.orange }]} />
       <Section bg={C.bgAlt}>
-        <SectionHeader badge="Allied Sciences" title="Allied Agricultural Disciplines" subtitle="A rich ecosystem of complementary sciences that enhance primary agricultural productivity and sustainability." color={C.orange} />
+        <SectionHeader badge="Allied Sciences" title="Allied Agricultural Disciplines" subtitle="A rich ecosystem of complementary sciences that enhance primary agricultural productivity and sustainability." color={C.orange} center />
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 14 }}>
           {allied.map((item) => (
             <div key={item.name} style={{ background: "#fff", border: `1px solid ${C.border}`, borderRadius: 14, padding: "18px 18px", display: "flex", alignItems: "center", gap: 14, transition: "all 0.22s cubic-bezier(0.16,1,0.3,1)", cursor: "default" }}
@@ -705,8 +701,8 @@ function SeedLandscapePage() {
     <div>
       <PageHero badge="IFAIGTEC · Seed Science" badgeColor={C.green} title="AI Agriculture" titleAccent="Seed Landscape" subtitle="Six specialized seed science programs covering rice, maize, cotton, vegetable crops, and consortium models — powered by AI-driven quality control and genetic verification systems." imgUrl={IMG.seedFarm} stats={[{ value: "6", label: "Seed Programs", color: C.green }, { value: "AI", label: "Quality Assurance", color: C.teal }]} />
       <Section bg={C.bgAlt}>
-        <SectionHeader badge="Seed Science Programs" title="Seed Production & Technology" subtitle="IFAIGTEC's seed science programs combine traditional expertise with AI-powered quality control and genomic verification." color={C.green} />
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(340px, 1fr))", gap: 24 }}>
+        <SectionHeader badge="Seed Science Programs" title="Seed Production & Technology" subtitle="IFAIGTEC's seed science programs combine traditional expertise with AI-powered quality control and genomic verification." color={C.green} center />
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 24 }}>
           {seedPrograms.map((p) => (
             <HoverCard key={p.name} accent={p.color}>
               <div style={{ width: 52, height: 52, borderRadius: 14, background: `${p.color}15`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 26, marginBottom: 16 }}>{p.icon}</div>
@@ -717,8 +713,8 @@ function SeedLandscapePage() {
         </div>
       </Section>
       <Section>
-        <SectionHeader badge="Farm Technology" title="Agriculture Production Technologies" color={C.orange} />
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
+        <SectionHeader badge="Farm Technology" title="Agriculture Production Technologies" color={C.orange} center />
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 12, justifyContent: "center" }}>
           {["Farm Technology", "Horticultural Technologies", "Quality Control in AgriWarehousing", "Herbal Science", "Coconut Production Technology", "Organic Agriculture", "Production of Bio Fertilizers", "Bio Control Agent", "Food Science and Processing", "Quality in Medicinal Plants"].map((tech, i) => (
             <div key={tech} style={styles.pill(i % 2 === 0 ? C.orange : C.green)}>{tech}</div>
           ))}
@@ -746,8 +742,8 @@ function FoodSciencePage() {
     <div>
       <PageHero badge="IFAIGTEC · Food Science" badgeColor={C.orange} title="AI Food Science" titleAccent="Landscape" subtitle="Seven domains of food science — from processing engineering to laboratory testing — forming a complete AI-enhanced food technology program under IFAIGTEC certification." imgUrl={IMG.foodFactory} stats={[{ value: "7", label: "Food Science Domains", color: C.orange }, { value: "HACCP", label: "Safety Standards", color: C.green }]} />
       <Section bg={C.bgAlt}>
-        <SectionHeader badge="Food Science" title="Food Technology Domains" subtitle="Comprehensive coverage of the food science ecosystem — ensuring quality, safety, and innovation from farm gate to consumer." color={C.orange} />
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: 24 }}>
+        <SectionHeader badge="Food Science" title="Food Technology Domains" subtitle="Comprehensive coverage of the food science ecosystem — ensuring quality, safety, and innovation from farm gate to consumer." color={C.orange} center />
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 24 }}>
           {domains.map((d) => (
             <HoverCard key={d.name} accent={d.color}>
               <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 16 }}>
@@ -783,8 +779,8 @@ function AgriBusinessPage() {
     <div>
       <PageHero badge="IFAIGTEC · Agri Business" badgeColor={C.orange} title="AI Agri Business" titleAccent="Landscape" subtitle="Nine business development programs that transform agricultural innovation into economic value — through incubation, export consortiums, venture capital, and institutional development." imgUrl={IMG.droneField} stats={[{ value: "9", label: "Business Programs", color: C.orange }, { value: "VC", label: "Investment Access", color: C.green }, { value: "Global", label: "Export Markets", color: C.teal }]} />
       <Section bg={C.bgAlt}>
-        <SectionHeader badge="Agri Business Programs" title="Business Development Landscape" subtitle="A complete ecosystem for transforming agricultural science into commercial success — from lab to market, farm to export." color={C.orange} />
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: 24 }}>
+        <SectionHeader badge="Agri Business Programs" title="Business Development Landscape" subtitle="A complete ecosystem for transforming agricultural science into commercial success — from lab to market, farm to export." color={C.orange} center />
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 24 }}>
           {programs.map((p) => (
             <HoverCard key={p.name} accent={p.color}>
               <div style={{ width: 52, height: 52, borderRadius: 14, background: `${p.color}15`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 26, marginBottom: 16 }}>{p.icon}</div>
@@ -795,7 +791,7 @@ function AgriBusinessPage() {
         </div>
       </Section>
       <Section>
-        <div style={{ background: `linear-gradient(135deg, ${C.orange} 0%, #FF8F1F 100%)`, borderRadius: 24, padding: "56px 64px", textAlign: "center", position: "relative", overflow: "hidden" }}>
+        <div style={{ background: `linear-gradient(135deg, ${C.orange} 0%, #FF8F1F 100%)`, borderRadius: 24, padding: "clamp(32px, 6vw, 56px) clamp(24px, 5vw, 64px)", textAlign: "center", position: "relative", overflow: "hidden" }}>
           <h2 style={{ fontFamily: serif, fontSize: "clamp(28px, 4vw, 44px)", fontWeight: 800, color: "#fff", margin: "0 0 16px" }}>Ready to Transform Agriculture with AI?</h2>
           <p style={{ fontSize: 17, color: "rgba(255,255,255,0.85)", fontFamily: sans, maxWidth: 520, margin: "0 auto 32px", lineHeight: 1.7 }}>Join IFAIGTEC's global network of agri-business innovators and access world-class AI certification, research, and business development programs.</p>
           <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
@@ -841,14 +837,15 @@ function BackToHomeButton({ onExit }: { onExit?: () => void }) {
       onClick={onExit}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
+      className="agri-back-btn"
       style={{
         display: "flex",
         alignItems: "center",
-        gap: 8,
+        gap: 6,
         background: hovered ? "#fff" : "rgba(255,255,255,0.92)",
         border: `1.5px solid ${hovered ? C.orange : C.border}`,
-        borderRadius: 10,
-        padding: "8px 16px",
+        borderRadius: 8,
+        padding: "8px 14px",
         cursor: "pointer",
         fontFamily: sans,
         fontWeight: 600,
@@ -859,29 +856,16 @@ function BackToHomeButton({ onExit }: { onExit?: () => void }) {
         flexShrink: 0,
       }}
     >
-      {/* Left arrow SVG */}
-      <svg
-        width="16"
-        height="16"
-        viewBox="0 0 16 16"
-        fill="none"
-        style={{ transition: "transform 0.2s ease", transform: hovered ? "translateX(-2px)" : "translateX(0)" }}
-      >
-        <path
-          d="M10 12L6 8L10 4"
-          stroke={hovered ? C.orange : C.gray}
-          strokeWidth="1.8"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ transition: "transform 0.2s ease", transform: hovered ? "translateX(-2px)" : "translateX(0)" }}>
+        <path d="M10 12L6 8L10 4" stroke={hovered ? C.orange : C.gray} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
-      Back to Home
+      <span>Back</span>
     </button>
   );
 }
 
 // ────────────────────────────────────────────────────────────────────────────
-// TOP NAV (agri app's own header — distinct from the main site's Navbar)
+// TOP NAV
 // ────────────────────────────────────────────────────────────────────────────
 function TopNav({
   activePage,
@@ -896,60 +880,58 @@ function TopNav({
 }) {
   const current = NAV_ITEMS.find((n) => n.id === activePage);
   return (
-    <header style={{
+    <header className="agri-topnav" style={{
       position: "sticky", top: 0, zIndex: 100,
       background: "rgba(255,255,255,0.92)", backdropFilter: "blur(16px)",
       borderBottom: `1px solid ${C.border}`, height: 60,
       display: "flex", alignItems: "center", padding: "0 24px", gap: 16,
     }}>
-      {/* ── Back to Home button ── */}
       <BackToHomeButton onExit={onExit} />
+      
+      {/* Hidden on mobile to save space */}
+      <div className="agri-hide-mobile" style={{ width: 1, height: 24, background: C.border, flexShrink: 0 }} />
 
-      {/* Divider */}
-      <div style={{ width: 1, height: 24, background: C.border, flexShrink: 0 }} />
-
-      {/* Logo */}
-      <div style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
-        <div style={{
+      {/* Logo container - NOW VISIBLE ON MOBILE */}
+      <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
+        <div className="agri-logo-box" style={{
           width: 32, height: 32, borderRadius: 8,
           background: `linear-gradient(135deg, ${C.orange}, #FF8F1F)`,
           display: "flex", alignItems: "center", justifyContent: "center",
           color: "#fff", fontWeight: 800, fontSize: 13, fontFamily: sans, letterSpacing: "-0.03em",
-        }}>
-          IF
-        </div>
+        }}>IF</div>
         <div style={{ textAlign: "left" }}>
-          <div style={{ fontFamily: sans, fontWeight: 800, fontSize: 13, color: C.dark, letterSpacing: "-0.02em" }}>IFAIGTEC</div>
-          <div style={{ fontFamily: sans, fontSize: 10, color: C.muted, lineHeight: 1, fontWeight: 500 }}>AI Governance Tech</div>
+          <div className="agri-logo-text" style={{ fontFamily: sans, fontWeight: 800, fontSize: 13, color: C.dark, letterSpacing: "-0.02em" }}>IFAIGTEC</div>
+          <div className="agri-logo-sub" style={{ fontFamily: sans, fontSize: 10, color: C.muted, lineHeight: 1, fontWeight: 500 }}>AI Governance</div>
         </div>
       </div>
 
-      <div style={{ width: 1, height: 24, background: C.border, flexShrink: 0 }} />
+      <div className="agri-hide-mobile" style={{ width: 1, height: 24, background: C.border, flexShrink: 0 }} />
 
-      <div style={{ display: "flex", alignItems: "center", gap: 8, fontFamily: sans, fontSize: 13, color: C.muted }}>
-        <span>Agriculture</span>
-        <span>›</span>
+      {/* Breadcrumb - hidden on mobile */}
+      <div className="agri-hide-mobile" style={{ display: "flex", alignItems: "center", gap: 8, fontFamily: sans, fontSize: 13, color: C.muted, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+        <span>Agriculture</span><span>›</span>
         <span style={{ color: C.dark, fontWeight: 600 }}>{current?.label}</span>
       </div>
 
       <div style={{ flex: 1 }} />
 
-      <a href="#" style={{
+      <a href="#" className="agri-hide-mobile" style={{
         padding: "7px 18px", background: C.orange, color: "#fff", borderRadius: 8,
         fontFamily: sans, fontWeight: 600, fontSize: 13, textDecoration: "none",
-        display: "flex", alignItems: "center", gap: 6,
+        display: "flex", alignItems: "center", gap: 6, flexShrink: 0,
       }}>
         Become a Member
       </a>
 
+      {/* Mobile Hamburger Toggle */}
       <button
         onClick={onMenuToggle}
         aria-label="Toggle navigation"
         className="agri-mobile-toggle"
         style={{
-          display: "none", width: 36, height: 36, borderRadius: 8,
+          width: 36, height: 36, borderRadius: 8,
           border: `1px solid ${C.border}`, background: "#fff", cursor: "pointer",
-          alignItems: "center", justifyContent: "center", fontSize: 18,
+          alignItems: "center", justifyContent: "center", fontSize: 18, flexShrink: 0
         }}
       >
         {sidebarOpen ? "✕" : "☰"}
@@ -963,12 +945,8 @@ function TopNav({
 // ────────────────────────────────────────────────────────────────────────────
 function Sidebar({ activePage, onNavigate }: { activePage: PageId; onNavigate: (page: PageId) => void }) {
   return (
-    <nav aria-label="Agriculture section navigation" className="agri-sidebar-inner" style={{
-      width: 260, flexShrink: 0, borderRight: `1px solid ${C.border}`,
-      background: C.bgAlt, position: "sticky", top: 60, height: "calc(100vh - 60px)",
-      overflowY: "auto", padding: "24px 0", display: "flex", flexDirection: "column",
-    }}>
-      <div style={{ padding: "0 20px 16px", borderBottom: `1px solid ${C.border}`, marginBottom: 8 }}>
+    <nav aria-label="Agriculture section navigation" className="agri-sidebar-inner">
+      <div style={{ padding: "0 20px 16px", borderBottom: `1px solid ${C.border}`, marginBottom: 8, flexShrink: 0 }}>
         <div style={{ fontFamily: sans, fontSize: 10, fontWeight: 700, color: C.muted, letterSpacing: "0.1em", textTransform: "uppercase" }}>AI Agriculture</div>
         <div style={{ fontFamily: serif, fontSize: 16, fontWeight: 700, color: C.dark, marginTop: 2 }}>Section Navigator</div>
       </div>
@@ -1004,14 +982,14 @@ function Sidebar({ activePage, onNavigate }: { activePage: PageId; onNavigate: (
               }}
             >
               <span style={{ fontSize: 16, flexShrink: 0 }}>{item.icon}</span>
-              <span style={{ lineHeight: 1.3 }}>{item.label}</span>
+              <span style={{ lineHeight: 1.3, whiteSpace: "nowrap" }}>{item.label}</span>
               {isActive && <span style={{ marginLeft: "auto", fontSize: 10, color: C.orange, fontWeight: 700 }}>●</span>}
             </button>
           );
         })}
       </div>
 
-      <div style={{ padding: "16px 20px", borderTop: `1px solid ${C.border}`, marginTop: "auto" }}>
+      <div style={{ padding: "16px 20px", borderTop: `1px solid ${C.border}`, marginTop: "auto", flexShrink: 0 }}>
         <div style={{ fontFamily: sans, fontSize: 11, color: C.muted, lineHeight: 1.5 }}>
           © 2026 IFAIGTEC
           <br />
@@ -1023,16 +1001,13 @@ function Sidebar({ activePage, onNavigate }: { activePage: PageId; onNavigate: (
 }
 
 // ────────────────────────────────────────────────────────────────────────────
-// FOOTER (agri app's own — distinct from the main site's Footer)
+// FOOTER
 // ────────────────────────────────────────────────────────────────────────────
 function AgricultureFooter() {
   return (
     <footer style={{ background: C.dark, padding: "56px 0 32px" }}>
-      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 40px" }}>
-        <div style={{
-          display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: 48,
-          paddingBottom: 40, borderBottom: "1px solid rgba(255,255,255,0.08)", marginBottom: 32,
-        }}>
+      <div className="agri-container">
+        <div className="agri-footer-grid">
           <div>
             <div style={{ fontFamily: serif, fontSize: 22, fontWeight: 700, color: "#fff", marginBottom: 12 }}>IFAIGTEC</div>
             <p style={{ fontFamily: sans, fontSize: 14, color: "rgba(255,255,255,0.5)", lineHeight: 1.7, maxWidth: 280 }}>
@@ -1059,7 +1034,7 @@ function AgricultureFooter() {
 
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
           <span style={{ fontFamily: sans, fontSize: 13, color: "rgba(255,255,255,0.3)" }}>© 2026 IFAIGTEC. All rights reserved.</span>
-          <div style={{ display: "flex", gap: 24 }}>
+          <div style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
             {["Privacy Policy", "Terms of Service", "Contact"].map((l) => (
               <a key={l} href="#" style={{ fontFamily: sans, fontSize: 13, color: "rgba(255,255,255,0.35)", textDecoration: "none" }}>{l}</a>
             ))}
@@ -1081,7 +1056,8 @@ export default function AgricultureApp({
   onExit?: () => void;
 }) {
   const [activePage, setActivePage] = useState<PageId>(initialPage);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false); // Mobile toggle
+  const [desktopSidebarOpen, setDesktopSidebarOpen] = useState(true); // Desktop toggle
   const mainRef = useRef<HTMLDivElement>(null);
 
   const navigate = useCallback((page: PageId) => {
@@ -1094,24 +1070,114 @@ export default function AgricultureApp({
   return (
     <div style={{ ...styles.page, display: "flex", flexDirection: "column", minHeight: "100vh" }}>
       <style>{`
-        @keyframes fadeInUp {
-          from { opacity: 0; transform: translateY(20px); }
-          to   { opacity: 1; transform: translateY(0); }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .agri-container { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
+        .agri-hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; position: relative; z-index: 1; }
+        .agri-val-prop-grid { display: grid; grid-template-columns: 120px 1fr; gap: 32px; align-items: start; }
+        .agri-footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; padding-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 32px; }
+        
+        .agri-mobile-toggle { display: none !important; }
+        .mobile-overlay { display: none; }
+
+        /* Sidebar Architecture */
+        .agri-sidebar-wrapper {
+          position: relative;
+          width: 260px;
+          flex-shrink: 0;
+          border-right: 1px solid #E5E7EB;
+          background: #FAFAFA;
+          transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          z-index: 50;
+          overflow: visible; /* FIX: Allows the arrow button to bleed outside when collapsed */
         }
-        @media (max-width: 900px) {
-          .agri-sidebar-nav { display: none !important; }
-          .agri-main-content { flex: 1 !important; }
-          .agri-mobile-toggle { display: flex !important; }
-        }
+        .agri-sidebar-wrapper.collapsed { width: 0px; border-right: none; }
+        
         .agri-sidebar-inner {
+          width: 260px;
+          height: calc(100vh - 60px);
+          position: sticky;
+          top: 60px;
+          overflow-y: auto;
+          overflow-x: hidden;
+          padding: 24px 0;
+          display: flex;
+          flex-direction: column;
+          transition: opacity 0.2s;
           scrollbar-width: none;
-          -ms-overflow-style: none;
         }
-        .agri-sidebar-inner::-webkit-scrollbar {
-          display: none;
+        .agri-sidebar-inner::-webkit-scrollbar { display: none; }
+        .agri-sidebar-wrapper.collapsed .agri-sidebar-inner { opacity: 0; pointer-events: none; }
+
+        /* Desktop Toggle Button */
+        .desktop-toggle {
+          position: absolute;
+          right: -16px; /* FIX: Keeps it anchored outside the border */
+          top: 24px;
+          width: 32px;
+          height: 32px;
+          border-radius: 50%;
+          background: #fff;
+          border: 1px solid #E5E7EB;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          z-index: 60;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+          color: #475569;
+          transition: all 0.2s ease;
+          transform: translateX(50%); /* FIX: Pushes it cleanly out of the frame */
+        }
+        .desktop-toggle:hover { color: #FF7A00; border-color: #FF7A00; }
+
+        /* Mobile Breakpoints */
+        @media (max-width: 900px) {
+          .agri-container { padding: 0 24px; }
+          .agri-hero-grid { grid-template-columns: 1fr; gap: 32px; text-align: center; }
+          .agri-hero-grid > div:first-child { display: flex; flex-direction: column; align-items: center; }
+          .agri-hero-grid h1 { font-size: clamp(32px, 8vw, 44px) !important; }
+          .agri-val-prop-grid { grid-template-columns: 1fr; gap: 16px; }
+
+          .agri-mobile-toggle { display: flex !important; }
+          .desktop-toggle { display: none !important; }
+          
+          /* Mobile Sidebar Override */
+          .agri-sidebar-wrapper {
+            position: fixed;
+            top: 60px;
+            left: -300px;
+            height: calc(100vh - 60px);
+            width: 260px !important;
+            transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 4px 0 24px rgba(0,0,0,0.1);
+          }
+          .agri-sidebar-wrapper.mobile-open { left: 0; }
+          .agri-sidebar-wrapper.collapsed .agri-sidebar-inner { opacity: 1; pointer-events: auto; }
+          
+          .mobile-overlay { display: block; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 40; top: 60px; }
+          .agri-footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+          .agri-footer-grid > div:first-child { grid-column: 1 / -1; }
+        }
+
+        /* Small Mobile Header Fixes (Shrinking UI to fit) */
+        @media (max-width: 600px) {
+          .agri-container { padding: 0 16px; }
+          .agri-hide-mobile { display: none !important; }
+          .agri-topnav { padding: 0 12px !important; gap: 10px !important; }
+          
+          /* Shinks Back Button */
+          .agri-back-btn { padding: 6px 10px !important; font-size: 12px !important; gap: 4px !important; }
+          .agri-back-btn svg { width: 14px; height: 14px; }
+          
+          /* Shrinks Logo slightly to fit next to button */
+          .agri-logo-box { width: 26px !important; height: 26px !important; font-size: 11px !important; }
+          .agri-logo-text { font-size: 12px !important; }
+          .agri-logo-sub { font-size: 9px !important; }
+          
+          .agri-footer-grid { grid-template-columns: 1fr; }
         }
       `}</style>
-
       <TopNav
         activePage={activePage}
         onMenuToggle={() => setSidebarOpen((v) => !v)}
@@ -1119,8 +1185,20 @@ export default function AgricultureApp({
         onExit={onExit}
       />
 
-      <div style={{ display: "flex", flex: 1 }}>
-        <div className="agri-sidebar-nav">
+      <div style={{ display: "flex", flex: 1, position: "relative" }}>
+        
+        {/* Mobile Background Overlay */}
+        {sidebarOpen && (
+          <div className="mobile-overlay" onClick={() => setSidebarOpen(false)} />
+        )}
+
+        <div className={`agri-sidebar-wrapper ${!desktopSidebarOpen ? "collapsed" : ""} ${sidebarOpen ? "mobile-open" : ""}`}>
+          <button className="desktop-toggle" onClick={() => setDesktopSidebarOpen(!desktopSidebarOpen)} title="Toggle Sidebar">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ transform: desktopSidebarOpen ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.3s" }}>
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
+          
           <Sidebar activePage={activePage} onNavigate={navigate} />
         </div>
 
